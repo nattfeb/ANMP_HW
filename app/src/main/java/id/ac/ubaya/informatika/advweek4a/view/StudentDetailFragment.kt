@@ -8,9 +8,13 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import id.ac.ubaya.informatika.advweek4a.R
+import id.ac.ubaya.informatika.advweek4a.util.loadImage
 import id.ac.ubaya.informatika.advweek4a.viewmodel.DetailViewModel
 import id.ac.ubaya.informatika.advweek4a.viewmodel.ListViewModel
 import kotlinx.android.synthetic.main.fragment_student_detail.*
+import kotlinx.android.synthetic.main.fragment_student_detail.txtName
+import kotlinx.android.synthetic.main.student_list_item.*
+import kotlinx.android.synthetic.main.student_list_item.view.*
 
 
 class StudentDetailFragment : Fragment() {
@@ -27,8 +31,10 @@ class StudentDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val studentID = StudentDetailFragmentArgs.fromBundle(requireArguments()).studentID
+
         viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
-        viewModel.fetch()
+        viewModel.fetch(studentID)
 
         observeViewModel()
     }
@@ -39,6 +45,8 @@ class StudentDetailFragment : Fragment() {
             txtName.setText(it.name)
             txtDob.setText(it.dob)
             txtPhone.setText(it.phone)
+            studentPic.loadImage(it.photoUrl.toString(), progressBarDetail)
+
         })
     }
 
